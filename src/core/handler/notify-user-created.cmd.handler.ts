@@ -18,10 +18,20 @@ export class NotifyUserCreatedHandler
   async execute(command: NotifyUserCreatedCommand): Promise<string> {
     const { email, verificationCode } = command.props;
 
-    const filePath = path.join(process.cwd(), 'src', 'domain', 'template', 'welcome.hbs');
+    const filePath = path.join(
+      process.cwd(),
+      'src',
+      'domain',
+      'template',
+      'welcome.hbs',
+    );
     const source = fs.readFileSync(filePath, 'utf8');
     const htmlTemplate = handlebars.compile(source);
-    const html = htmlTemplate({ verificationCode });
+    const baseUrl =
+      process.env.AUTH_SERVICE_URL ?? 'http://localhost:3000/auth/verifyCode';
+    const html = htmlTemplate({
+      verifyLink: `${baseUrl}?code=${verificationCode}`,
+    });
 
     await this.notificationService.sendMail(
       email,
