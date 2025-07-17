@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
+import { CqrsModule } from '@nestjs/cqrs';
 import { NOTIFICATION_HANDLER } from './core';
-import { NotificationController } from './infras/notification.transport';
 import { NodemailerService } from './domain';
-import { CoreModule } from 'vtonomy';
+import { NotificationController } from './infras/notification.transport';
 
 @Module({
-  imports: [CoreModule],
+  imports: [CqrsModule],
   controllers: [NotificationController],
   providers: [
     {
