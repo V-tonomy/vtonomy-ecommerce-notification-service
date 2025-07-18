@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { QueueConfig } from 'vtonomy';
 import { NotificationModule } from './notification.module';
 
 async function bootstrap() {
@@ -12,9 +13,7 @@ async function bootstrap() {
         process.env.RABBITMQ_URL ?? 'amqp://vtonomy:123456@localhost:5672',
       ],
       queue: 'notification_queue',
-      queueOptions: {
-        durable: true,
-      },
+      queueOptions: QueueConfig,
     },
   });
 
